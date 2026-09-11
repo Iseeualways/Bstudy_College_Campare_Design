@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare colleges side by side.">
+  <title>Compare Colleges | Bangalore Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --sky: #00a3f4;
+      --sky-dark: #0087ce;
+      --ink: #162238;
+      --muted: #687385;
+      --line: #e4ebf0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fff;
+      color: var(--ink);
+      font-family: Poppins, sans-serif;
+      font-size: 14px;
+    }
+
+    .compare-content {
+      background: #f8fafc;
+      min-height: 100vh;
+    }
+
+    .section-heading h1 {
+      color: #000000;
+      font-size: clamp(25px, 3vw, 32px);
+      font-weight: 700;
+      margin: 5px 0;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .compare-count {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .compare-count span {
+      color: var(--sky-dark);
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .selection-panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgb(0 0 0 / 12%);
+      padding: 23px;
+    }
+
+    .inline-form-head {
+      align-items: center;
+      display: flex;
+      gap: 11px;
+      margin-bottom: 19px;
+    }
+
+    .step-badge {
+      background: var(--sky);
+      border-radius: 50%;
+      color: #fff;
+      display: grid;
+      font-size: 13px;
+      font-weight: 700;
+      height: 31px;
+      place-items: center;
+      width: 31px;
+    }
+
+    .inline-form-head h2 {
+      color: #26384b;
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0 0 1px;
+    }
+
+    .inline-form-head p {
+      color: #7c8996;
+      font-size: 11px;
+      margin: 0;
+    }
+
+    .form-label {
+      color: #4a5a6b;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    .form-control,
+    .form-select {
+      border-color: #dce5eb;
+      box-shadow: none !important;
+      color: #27384a;
+      font-size: 13px;
+      min-height: 45px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--sky);
+    }
+
+    .form-select:disabled {
+      background-color: #f5f8fa;
+      color: #95a1ac;
+    }
+
+    .search-control {
+      position: relative;
+    }
+
+    .search-control>i {
+      color: var(--sky);
+      left: 13px;
+      position: absolute;
+      top: 12px;
+      z-index: 2;
+    }
+
+    .search-control .form-control {
+      padding-left: 37px;
+    }
+
+    .college-options {
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
+      max-height: 190px;
+      overflow-y: auto;
+    }
+
+    .college-options:empty {
+      display: none;
+    }
+
+    .college-option {
+      align-items: center;
+      background: #fff;
+      border: 1px solid #e3ebf0;
+      border-radius: 7px;
+      display: flex;
+      gap: 9px;
+      padding: 9px;
+      text-align: left;
+      transition: .16s ease;
+      width: 100%;
+    }
+
+    .college-option:hover {
+      background: #f1fbff;
+      border-color: var(--sky);
+    }
+
+    .college-logo {
+      align-items: center;
+      border-radius: 7px;
+      color: #fff;
+      display: flex;
+      flex: 0 0 auto;
+      font-size: 10px;
+      font-weight: 700;
+      height: 34px;
+      justify-content: center;
+      width: 34px;
+      overflow: hidden;
+    }
+
+    .college-logo img {
+      background: #fff;
+      box-sizing: border-box;
+      height: 100%;
+      object-fit: contain;
+      padding: 4px;
+      width: 100%;
+    }
+
+    .college-logo-fallback {
+      align-items: center;
+      display: none;
+      height: 100%;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .college-option strong,
+    .college-option small {
+      display: block;
+    }
+
+    .college-option strong {
+      color: #25405b;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .college-option small {
+      color: #84919e;
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    .selected-college {
+      align-items: center;
+      background: #f1fbff;
+      border: 1px solid #c3eafd;
+      border-radius: 7px;
+      color: #315b75;
+      display: flex;
+      font-size: 11px;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 8px 9px;
+    }
+
+    .selected-college .college-logo {
+      height: 29px;
+      width: 29px;
+    }
+
+    .selected-college strong,
+    .selected-college span {
+      display: block;
+    }
+
+    .selected-college strong {
+      font-size: 11px;
+    }
+
+    .selected-college span span {
+      color: #7590a2;
+      font-size: 10px;
+    }
+
+    .add-button {
+      --bs-btn-bg: var(--sky);
+      --bs-btn-border-color: var(--sky);
+      --bs-btn-hover-bg: var(--sky-dark);
+      --bs-btn-hover-border-color: var(--sky-dark);
+      --bs-btn-disabled-bg: #b9ceda;
+      --bs-btn-disabled-border-color: #b9ceda;
+      font-size: 12px;
+      font-weight: 600;
+      min-height: 45px;
+    }
+
+    .add-button i {
+      margin-right: 4px;
+    }
+
+    .form-status {
+      color: #7b8996;
+      font-size: 11px;
+      margin-top: 13px;
+    }
+
+    .form-status i,
+    .selection-note i {
+      color: var(--sky);
+      margin-right: 3px;
+    }
+
+    .selection-divider {
+      border-top: 1px solid var(--line);
+      margin: 21px 0 18px;
+    }
+
+    .college-slot {
+      position: relative;
+      align-items: center;
+      background: #f5f9fd;
+      border: 1px solid #cadce7;
+      border-radius: 12px;
+      color: #a5b1bb;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 157px;
+      padding: 18px;
+      text-align: center;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgb(0 0 0 / 12%);
+      transition:
+        transform 0.35s cubic-bezier(.2, .8, .2, 1),
+        border-color 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease,
+        color 0.35s ease;
+    }
+
+    .college-slot:hover {
+      background: #ffffff;
+      border-color: #0094ec;
+      color: #0094ec;
+      box-shadow:
+        0 12px 30px rgba(0, 142, 207, 0.12),
+        0 0 0 4px rgba(0, 142, 207, 0.04);
+    }
+
+    .slot-plus {
+      background: #eef5f8;
+      border-radius: 50%;
+      color: #5f676d;
+      display: grid;
+      font-size: 20px;
+      height: 35px;
+      margin-bottom: 8px;
+      place-items: center;
+      width: 35px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.189);
+    }
+
+    .college-slot h3 {
+      color: #0094ec;
+      font-size: 15px;
+      font-weight: 400;
+      margin: 0 0 3px;
+    }
+
+    .college-slot p {
+      font-size: 10px;
+      margin: 0;
+    }
+
+    .slot-card {
+      background: #fff;
+      border: 1px solid #bce2f4;
+      border-radius: 9px;
+      box-shadow: 0 4px 13px rgba(18, 73, 104, .05);
+      min-height: 157px;
+      padding: 16px;
+      position: relative;
+      text-align: center;
+    }
+
+    .slot-card .college-logo {
+      font-size: 22px;
+      height: 70px;
+      margin: 0 auto 9px;
+      width: 70px;
+    }
+
+    .slot-card h3 {
+      color: #0094ec;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.45;
+      margin: 0 0 3px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slot-city {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .slot-course {
+      border-top: 1px solid var(--line);
+      color: #4e5d6e;
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 9px 0 0;
+      padding-top: 8px;
+    }
+
+    .remove-college {
+      background: transparent;
+      border: 0;
+      color: #92a1ae;
+      font-size: 17px;
+      line-height: 1;
+      padding: 0;
+      position: absolute;
+      right: 11px;
+      top: 11px;
+    }
+
+    .remove-college:hover {
+      color: #e04f5f;
+    }
+
+    .selection-note {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 19px;
+      padding-top: 14px;
+    }
+
+    .results-heading {
+      color: #253346;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 13px;
+    }
+
+    .table-wrap {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 5px 18px rgba(25, 61, 95, .04);
+      overflow-x: auto;
+    }
+
+    .comparison-table {
+      font-size: 15px;
+      margin: 0;
+      min-width: 720px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      border-color: var(--line);
+      padding: 14px 15px;
+      vertical-align: middle;
+    }
+
+    .comparison-table thead th {
+      background: #ffffff;
+      color: #253346;
+      font-weight: 600;
+      min-width: 205px;
+    }
+
+    .comparison-table thead th:first-child {
+      background: #eef8fc;
+      color: #47596a;
+      min-width: 180px;
+    }
+
+    .comparison-table tbody th {
+      background: #eef8fc;
+      color: #111111;
+      font-size: 16px !important;
+      font-weight: 600;
+      min-width: 180px;
+    }
+
+    .comparison-table tbody td {
+      background: #ffffff;
+      color: #354253;
+      line-height: 1.6;
+    }
+
+    .college-table-head {
+      align-items: center;
+      display: flex;
+      gap: 8px;
+    }
+
+    .college-table-head .college-logo {
+      font-size: 9px;
+      height: 40px;
+      width: 40px;
+    }
+
+    .fee {
+      color: #0a8bc9;
+      font-weight: 700;
+    }
+
+    .placement {
+      color: #d88700;
+      font-weight: 700;
+    }
+
+    .amenity-pill {
+      align-items: center;
+      background: #eef8fc;
+      border-radius: 20px;
+      color: #1c5a78;
+      display: inline-flex;
+      font-size: 11px;
+      gap: 5px;
+      margin: 2px 6px 2px 0;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+
+    .amenity-pill i {
+      color: #0094ec;
+      font-size: 11px;
+    }
+
+    @media (max-width:767.98px) {
+      .compare-content {
+        padding-top: 32px !important;
+      }
+
+      .selection-panel {
+        padding: 15px;
+      }
+
+      .college-slot,
+      .slot-card {
+        min-height: 145px;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 13px 12px;
+      }
+    }
+
+    .modal-header {
+      background: #00a3f4;
+      border: 0;
+      color: #fff;
+      padding: 19px 22px;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .modal-subtitle {
+      color: #ffffff;
+      font-size: 14px;
+      margin: 3px 0 0;
+    }
+
+    .modal-footer {
+      border-color: #edf1f4;
+      padding: 14px 22px;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background-color: #00a3f4;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="compare-content py-5">
+    <div class="container">
+      <div class="section-heading d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-4">
+        <div>
+          <h1>Compare Colleges Side by Side. Choose with Confidence.</h1>
+          <p class="mb-0">Choosing the right college is about more than just rankings. With our Compare Colleges tool,
+            you can evaluate multiple colleges side by side based on important factors such as fees, location,
+            accreditations, campus size, amenities and placements.
+            <br><br>
+            Instead of switching between multiple websites and trying to remember different details, get all the
+            essential information in one place. This is the best way to compare colleges and understand which
+            institution best matches your academic goals, preferences and future plans.
+          </p>
+        </div>
+        <div class="compare-count"><span id="collegeCount">0</span> of 4 colleges added</div>
+      </div>
+      <div class="selection-panel">
+        <div class="row g-3" id="collegeSlots" aria-live="polite"></div>
+        <p class="selection-note mb-0"><i class="bi bi-info-circle"></i> Add up to four colleges for a
+          detailed side-by-side view.</p>
+      </div>
+      <section id="resultsArea" class="mt-4 d-none" aria-live="polite"></section>
+    </div>
+  </section>
+
+  <div class="modal fade" id="collegeModal" tabindex="-1" aria-labelledby="collegeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title mb-0" id="collegeModalLabel">Add a college to compare</h2>
+            <p class="modal-subtitle">Choose all details in this one form.</p>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label for="collegeSearch" class="form-label">1. Select college</label>
+          <div class="search-control"><i class="bi bi-search"></i><input class="form-control" id="collegeSearch"
+              autocomplete="off" placeholder="Search and choose a college"></div>
+          <div id="collegeOptions" class="college-options" aria-live="polite"></div>
+          <div id="selectedCollege" class="selected-college d-none"></div>
+          <div class="mt-3">
+            <label for="degreeSelect" class="form-label">2. Select degree</label>
+            <select class="form-select" id="degreeSelect" disabled>
+              <option value="">Select degree</option>
+            </select>
+          </div>
+          <div class="mt-3">
+            <label for="courseSelect" class="form-label">3. Select course</label>
+            <select class="form-select" id="courseSelect" disabled>
+              <option value="">Select course</option>
+            </select>
+          </div>
+          <p id="formStatus" class="form-status mb-0"><i class="bi bi-info-circle"></i> Select a college to begin.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary px-4" id="addCollege" disabled>Add college <i
+              class="bi bi-plus-lg ms-1"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ---------------------------------------------------------------
+    // Data: all colleges available to compare
+    // ---------------------------------------------------------------
+    const CATALOG = [
+      {
+        id: 1, name: "Chandigarh University (CU)", city: "Chandigarh", initials: "CU", color: "#9b3c2d",
+        logo: "images/logos/chandigarh-university.png",
+        degrees: {
+          "B.A. (Hons.)": ["Journalism and Mass Communication", "Economics"],
+          "B.Tech": ["Computer Science", "Mechanical Engineering", "Civil Engineering"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.6L – ₹2.4L / year", established: "2012", type: "University · UGC",
+        location: "Gharuan, Chandigarh", ownership: "Private · Trust", accreditation: "NAAC A+, NBA",
+        campus: "112 acres", amenities: "Hostel, Library, Sports complex, Wi-Fi campus",
+        placement: "₹1.2 Cr highest", placed: "8,200 placed in 2025"
+      },
+      {
+        id: 2, name: "Lovely Professional University (LPU)", city: "Phagwara", initials: "LPU", color: "#174f78",
+        logo: "images/logos/Amrutha Ayurvedic Medical College (AAMC).webp",
+        degrees: {
+          "B.A. (Hons.)": ["Journalism and Mass Communication", "English"],
+          "B.Tech": ["Computer Science", "Electronics Engineering", "Civil Engineering"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.4L – ₹2.0L / year", established: "2005", type: "University · UGC",
+        location: "Phagwara, Punjab", ownership: "Private · Trust", accreditation: "NAAC A++, NBA",
+        campus: "600 acres", amenities: "Hostel, Library, Cinema, Food court, Wi-Fi campus",
+        placement: "₹1.1 Cr highest", placed: "9,500 placed in 2025"
+      },
+      {
+        id: 3, name: "RV College of Engineering", city: "Bangalore", initials: "RV", color: "#13765d",
+        logo: "images/logos/JSS Ayurveda Medical College.webp",
+        degrees: {
+          "B.E.": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Science"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.8L – ₹2.2L / year", established: "1963", type: "College · VTU",
+        location: "Mysore Road, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A++, NBA",
+        campus: "26 acres", amenities: "Hostel, Library, Sports complex, Wi-Fi campus",
+        placement: "₹51 LPA highest", placed: "1,180 placed in 2025"
+      },
+      {
+        id: 4, name: "PES University", city: "Bangalore", initials: "PES", color: "#be8d13",
+        logo: "images/logos/Yenepoya Ayurveda Medical College and Hospital.webp",
+        degrees: {
+          "B.Tech": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Technology"]
+        },
+        gender: "Co-ed",
+        fees: "₹2.4L – ₹3.0L / year", established: "1972", type: "University · Autonomous",
+        location: "Banashankari, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A+, NBA",
+        campus: "20 acres", amenities: "Hostel, Library, Auditorium, Food court, Wi-Fi campus",
+        placement: "₹56 LPA highest", placed: "1,340 placed in 2025"
+      },
+      {
+        id: 5, name: "BMS College of Engineering", city: "Bangalore", initials: "BMS", color: "#9f640b",
+        logo: "images/logos/Amrutha Ayurvedic Medical College (AAMC).webp",
+        degrees: {
+          "B.E.": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Science"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.5L – ₹1.9L / year", established: "1946", type: "College · VTU",
+        location: "Basavanagudi, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A++, NBA",
+        campus: "20 acres", amenities: "Hostel, Library, Gym, Medical room, Wi-Fi campus",
+        placement: "₹44 LPA highest", placed: "990 placed in 2025"
+      },
+      {
+        id: 6, name: "VIT Vellore", city: "Vellore", initials: "VIT", color: "#6a1b9a",
+        logo: "images/logos/Sushrutha Ayurvedic Medical College & Hospital.webp",
+        degrees: {
+          "B.Tech": ["Computer Science", "Electronics & Communication", "Mechanical Engineering"]
+        },
+        gender: "Co-ed",
+        fees: "₹2.0L – ₹2.6L / year", established: "1984", type: "University · Deemed",
+        location: "Vellore, Tamil Nadu", ownership: "Private · Trust", accreditation: "NAAC A++, NBA",
+        campus: "372 acres", amenities: "Hostel, Library, Swimming pool, Food court, Wi-Fi campus",
+        placement: "₹1.0 Cr highest", placed: "6,800 placed in 2025"
+      },
+      {
+        id: 7, name: "Manipal Institute of Technology (MIT Manipal)", city: "Manipal", initials: "MIT", color: "#0e6b6b",
+        logo: "images/logos/Yenepoya Ayurveda Medical College and Hospital.webp",
+        degrees: {
+          "B.Tech": ["Computer Science", "Information Technology", "Mechanical Engineering"]
+        },
+        gender: "Co-ed",
+        fees: "₹4.5L – ₹5.5L / year", established: "1957", type: "Institute · Deemed University",
+        location: "Manipal, Karnataka", ownership: "Private · Trust", accreditation: "NAAC A++, NBA",
+        campus: "600 acres", amenities: "Hostel, Library, Gym, Cinema, Wi-Fi campus",
+        placement: "₹65 LPA highest", placed: "1,850 placed in 2025"
+      },
+      {
+        id: 8, name: "Christ University", city: "Bangalore", initials: "CHR", color: "#8b3a3a",
+        logo: "images/logos/chandigarh-university.png",
+        degrees: {
+          "B.A. (Hons.)": ["Journalism and Mass Communication", "Economics", "English"],
+          "BBA": ["Finance", "Marketing"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.8L – ₹2.5L / year", established: "1969", type: "University · Deemed",
+        location: "Hosur Road, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A++, NBA",
+        campus: "30 acres", amenities: "Hostel, Library, Auditorium, Cafeteria, Wi-Fi campus",
+        placement: "₹32 LPA highest", placed: "2,100 placed in 2025"
+      }
+    ];
+
+    // Icon shown next to each amenity in the comparison table
+    const AMENITY_ICONS = {
+      "Hostel": "bi-building",
+      "Library": "bi-book",
+      "Sports complex": "bi-trophy",
+      "Wi-Fi campus": "bi-wifi",
+      "Cinema": "bi-film",
+      "Food court": "bi-cup-hot",
+      "Gym": "bi-heart-pulse",
+      "Medical room": "bi-hospital",
+      "Auditorium": "bi-mic",
+      "Swimming pool": "bi-water",
+      "Cafeteria": "bi-cup-straw"
+    };
+
+    // ---------------------------------------------------------------
+    // State
+    // ---------------------------------------------------------------
+    const MAX_COLLEGES = 4;    // maximum colleges that can be compared at once
+    let slots = [];             // { collegeId, degree, course }[] — max length: MAX_COLLEGES
+    let activeSlotIndex = 0;    // which slot the open modal is filling
+    let selectedCollege = null;
+
+    // ---------------------------------------------------------------
+    // DOM references
+    // ---------------------------------------------------------------
+    const collegeSlotsEl = document.getElementById("collegeSlots");
+    const collegeCountEl = document.getElementById("collegeCount");
+    const resultsAreaEl = document.getElementById("resultsArea");
+    const searchInput = document.getElementById("collegeSearch");
+    const optionsListEl = document.getElementById("collegeOptions");
+    const selectedCollegeEl = document.getElementById("selectedCollege");
+    const degreeSelect = document.getElementById("degreeSelect");
+    const courseSelect = document.getElementById("courseSelect");
+    const addButton = document.getElementById("addCollege");
+    const statusText = document.getElementById("formStatus");
+    const collegeModal = new bootstrap.Modal(document.getElementById("collegeModal"));
+
+    // ---------------------------------------------------------------
+    // Small helpers
+    // ---------------------------------------------------------------
+    function getCollegeById(id) {
+      for (let i = 0; i < CATALOG.length; i++) {
+        if (CATALOG[i].id === id) return CATALOG[i];
+      }
+      return null;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function getUsedCollegeIds() {
+      return slots.map(slot => slot.collegeId);
+    }
+
+    function collegeLogoHtml(college) {
+      return `<span class="college-logo" style="background:${college.color}">
+        <img src="${college.logo}" alt="${escapeHtml(college.name)} logo"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <span class="college-logo-fallback">${college.initials}</span>
+      </span>`;
+    }
+
+    function setStatus(message) {
+      statusText.innerHTML = `<i class="bi bi-info-circle"></i> ${message}`;
+    }
+
+    function renderAmenities(amenitiesString) {
+      const names = amenitiesString.split(",").map(name => name.trim()).filter(Boolean);
+      let html = "";
+      for (let i = 0; i < names.length; i++) {
+        const icon = AMENITY_ICONS[names[i]] || "bi-check-circle";
+        html += `<span class="amenity-pill"><i class="bi ${icon}"></i>${escapeHtml(names[i])}</span>`;
+      }
+      return html;
+    }
+
+    // ---------------------------------------------------------------
+    // Modal: searching and choosing a college
+    // ---------------------------------------------------------------
+    function renderCollegeOptions() {
+      const query = searchInput.value.trim().toLowerCase();
+      const usedIds = getUsedCollegeIds();
+      const shouldShowList = query.length > 0 || document.activeElement === searchInput;
+
+      if (!shouldShowList) {
+        optionsListEl.innerHTML = "";
+        return;
+      }
+
+      const matches = CATALOG.filter(college => {
+        if (usedIds.includes(college.id)) return false;
+        const haystack = (college.name + " " + college.city).toLowerCase();
+        return !query || haystack.includes(query);
+      });
+
+      if (matches.length === 0) {
+        optionsListEl.innerHTML = query
+          ? '<p class="form-status mb-0">No unused college found for that search.</p>'
+          : "";
+        return;
+      }
+
+      optionsListEl.innerHTML = matches.map(college => `
+        <button class="college-option" type="button" data-college-id="${college.id}">
+          <span>
+            <strong>${escapeHtml(college.name)}</strong>
+            <small><i class="bi bi-geo-alt"></i> ${escapeHtml(college.city)}</small>
+          </span>
+        </button>
+      `).join("");
+
+      optionsListEl.querySelectorAll("[data-college-id]").forEach(button => {
+        button.addEventListener("click", () => {
+          chooseCollege(getCollegeById(Number(button.dataset.collegeId)));
+        });
+      });
+    }
+
+    function chooseCollege(college) {
+      selectedCollege = college;
+      searchInput.value = college.name;
+      optionsListEl.innerHTML = "";
+
+      selectedCollegeEl.innerHTML = `
+        <span>
+          <strong>${escapeHtml(college.name)}</strong>
+          <span><i class="bi bi-geo-alt"></i> ${escapeHtml(college.city)}</span>
+        </span>
+      `;
+      selectedCollegeEl.classList.remove("d-none");
+
+      const degreeNames = Object.keys(college.degrees);
+      degreeSelect.innerHTML = '<option value="">Select degree</option>'
+        + degreeNames.map(degree => `<option value="${escapeHtml(degree)}">${escapeHtml(degree)}</option>`).join("");
+      degreeSelect.disabled = false;
+
+      courseSelect.innerHTML = '<option value="">Select course</option>';
+      courseSelect.disabled = true;
+      addButton.disabled = true;
+      setStatus("Now select a degree and course.");
+    }
+
+    function resetModalForm() {
+      selectedCollege = null;
+      searchInput.value = "";
+      optionsListEl.innerHTML = "";
+      selectedCollegeEl.innerHTML = "";
+      selectedCollegeEl.classList.add("d-none");
+      degreeSelect.innerHTML = '<option value="">Select degree</option>';
+      degreeSelect.disabled = true;
+      courseSelect.innerHTML = '<option value="">Select course</option>';
+      courseSelect.disabled = true;
+      addButton.disabled = true;
+      setStatus("Select a college to begin.");
+    }
+
+    function openAddCollegeModal(slotIndex) {
+      if (slotIndex >= MAX_COLLEGES) return; // hard stop at the cap
+      activeSlotIndex = slotIndex;
+      resetModalForm();
+      renderCollegeOptions();
+      collegeModal.show();
+    }
+
+    // ---------------------------------------------------------------
+    // Rendering: slot cards + the comparison table
+    // ---------------------------------------------------------------
+    function renderSlots() {
+      let html = slots.map((slot, index) => {
+        const college = getCollegeById(slot.collegeId);
+        return `
+          <div class="col-12 col-sm-6 col-lg-3">
+            <article class="slot-card">
+              ${collegeLogoHtml(college)}
+              <button class="remove-college" type="button" aria-label="Remove ${escapeHtml(college.name)}" data-remove-index="${index}">
+                <i class="bi bi-x-circle"></i>
+              </button>
+              <h3>${escapeHtml(college.name)}</h3>
+              <span class="slot-city"><i class="bi bi-geo-alt"></i> ${escapeHtml(college.city)}</span>
+              <p class="slot-course">${escapeHtml(slot.degree)}<br><strong>${escapeHtml(slot.course)}</strong></p>
+            </article>
+          </div>
+        `;
+      }).join("");
+
+      // Show empty "Add a college" placeholder tiles up to the cap only —
+      // no add tile once MAX_COLLEGES have been selected.
+      const addTileHtml = `
+        <div class="col-12 col-sm-6 col-lg-3">
+          <button class="college-slot active w-100" type="button" data-add-slot="true">
+            <span class="slot-plus"><i class="bi bi-plus"></i></span>
+            <h3>Add a college</h3>
+          </button>
+        </div>
+      `;
+      const placeholderCount = MAX_COLLEGES - slots.length;
+      if (placeholderCount > 0) {
+        html += addTileHtml.repeat(placeholderCount);
+      }
+
+      collegeSlotsEl.innerHTML = html;
+      collegeCountEl.textContent = slots.length;
+
+      collegeSlotsEl.querySelectorAll("[data-add-slot]").forEach(button => {
+        button.addEventListener("click", () => {
+          openAddCollegeModal(slots.length);
+        });
+      });
+
+      collegeSlotsEl.querySelectorAll("[data-remove-index]").forEach(button => {
+        button.addEventListener("click", () => {
+          slots.splice(Number(button.dataset.removeIndex), 1);
+          renderAll();
+        });
+      });
+    }
+
+    function renderResults() {
+      if (slots.length < 2) {
+        resultsAreaEl.classList.add("d-none");
+        resultsAreaEl.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Average college fees", "fees", "fee"],
+        ["Established", "established"],
+        ["Type / affiliation", "type"],
+        ["Gender accepted", "gender"],
+        ["Location", "location"],
+        ["Ownership", "ownership"],
+        ["Accreditations", "accreditation"],
+        ["Campus size", "campus"],
+        ["Amenities", "amenities"],
+        ["Latest placements", "placement", "placement"]
+      ];
+
+      const headHtml = slots.map(slot => {
+        const college = getCollegeById(slot.collegeId);
+        return `<th scope="col"><div class="college-table-head">${collegeLogoHtml(college)}<span>${escapeHtml(college.name)}</span></div></th>`;
+      }).join("");
+
+      const bodyHtml = rows.map(([label, key, cellClass]) => {
+        const cells = slots.map(slot => {
+          const college = getCollegeById(slot.collegeId);
+          if (key === "amenities") {
+            return `<td>${renderAmenities(college.amenities)}</td>`;
+          }
+          if (key === "placement") {
+            return `<td class="${cellClass || ""}">${escapeHtml(college[key])}<small class="d-block text-secondary fw-normal mt-1">${escapeHtml(college.placed)}</small></td>`;
+          }
+          return `<td class="${cellClass || ""}">${escapeHtml(college[key])}</td>`;
+        }).join("");
+        return `<tr><th scope="row">${label}</th>${cells}</tr>`;
+      }).join("");
+
+      resultsAreaEl.innerHTML = `
+        <h2 class="results-heading">Your college comparison</h2>
+        <div class="table-wrap">
+          <table class="table comparison-table mb-0">
+            <thead><tr><th scope="col">Compare details</th>${headHtml}</tr></thead>
+            <tbody>${bodyHtml}</tbody>
+          </table>
+        </div>
+      `;
+      resultsAreaEl.classList.remove("d-none");
+    }
+
+    function renderAll() {
+      renderSlots();
+      renderResults();
+    }
+
+    // ---------------------------------------------------------------
+    // Events
+    // ---------------------------------------------------------------
+    searchInput.addEventListener("focus", renderCollegeOptions);
+
+    searchInput.addEventListener("input", () => {
+      if (selectedCollege && searchInput.value !== selectedCollege.name) {
+        selectedCollege = null;
+        selectedCollegeEl.classList.add("d-none");
+        degreeSelect.disabled = true;
+        courseSelect.disabled = true;
+        addButton.disabled = true;
+      }
+      renderCollegeOptions();
+    });
+
+    degreeSelect.addEventListener("change", () => {
+      const courses = selectedCollege ? (selectedCollege.degrees[degreeSelect.value] || []) : [];
+      courseSelect.innerHTML = '<option value="">Select course</option>'
+        + courses.map(course => `<option value="${escapeHtml(course)}">${escapeHtml(course)}</option>`).join("");
+      courseSelect.disabled = !degreeSelect.value;
+      addButton.disabled = true;
+      setStatus(degreeSelect.value ? "Choose the course to continue." : "Select a degree to continue.");
+    });
+
+    courseSelect.addEventListener("change", () => {
+      addButton.disabled = !courseSelect.value;
+      setStatus(courseSelect.value ? "Ready to add this college." : "Choose a course to continue.");
+    });
+
+    addButton.addEventListener("click", () => {
+      if (!selectedCollege || !degreeSelect.value || !courseSelect.value) return;
+      slots[activeSlotIndex] = {
+        collegeId: selectedCollege.id,
+        degree: degreeSelect.value,
+        course: courseSelect.value
+      };
+      collegeModal.hide();
+      renderAll();
+    });
+
+    renderAll();
+  </script>
+</body>
+
+</html>
