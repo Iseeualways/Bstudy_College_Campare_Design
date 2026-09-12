@@ -160,6 +160,7 @@
       border-radius: 7px;
       display: flex;
       gap: 9px;
+      justify-content: space-between;
       padding: 9px;
       text-align: left;
       transition: .16s ease;
@@ -169,6 +170,96 @@
     .college-option:hover {
       background: #f1fbff;
       border-color: var(--sky);
+    }
+
+    .match-badge {
+      background: #eafbf1;
+      border-radius: 20px;
+      color: #1c7a4c;
+      flex: 0 0 auto;
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 3px 9px;
+      white-space: nowrap;
+    }
+
+    .suggested-section {
+      background: #f4fbff;
+      border: 1px solid #cdeaf8;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      padding: 13px 13px 11px;
+    }
+
+    .suggested-label {
+      align-items: center;
+      color: #0f6f9e;
+      display: flex;
+      font-size: 12px;
+      font-weight: 600;
+      gap: 6px;
+      margin: 0 0 10px;
+    }
+
+    .suggested-label i {
+      color: var(--sky);
+    }
+
+    .suggested-colleges {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .suggested-chip {
+      background: #fff;
+      border: 1px solid #bfe6f9;
+      border-radius: 9px;
+      cursor: pointer;
+      flex: 0 0 auto;
+      padding: 10px;
+      text-align: left;
+      transition: .16s ease;
+      width: 158px;
+    }
+
+    .suggested-chip:hover {
+      border-color: var(--sky);
+      box-shadow: 0 4px 10px rgba(0, 142, 207, .15);
+    }
+
+    .suggested-chip .college-logo {
+      margin-bottom: 7px;
+    }
+
+    .suggested-chip strong {
+      color: #25405b;
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .suggested-chip small {
+      color: #7c8996;
+      display: block;
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    .suggested-chip .match-tag {
+      background: #eafbf1;
+      border-radius: 20px;
+      color: #1c7a4c;
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 600;
+      margin-top: 7px;
+      padding: 2px 8px;
     }
 
     .college-logo {
@@ -738,6 +829,7 @@
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+         
           <label for="collegeSearch" class="form-label">1. Select college</label>
           <div class="search-control"><i class="bi bi-search"></i><input class="form-control" id="collegeSearch"
               autocomplete="off" placeholder="Search and choose a college"></div>
@@ -756,6 +848,10 @@
             </select>
           </div>
           <p id="formStatus" class="form-status mb-0"><i class="bi bi-info-circle"></i> Select a college to begin.</p>
+           <div id="suggestedSection" class="suggested-section d-none">
+            <p class="suggested-label"><i class="bi bi-stars"></i> <span id="suggestedLabelText"></span></p>
+            <div id="suggestedColleges" class="suggested-colleges"></div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary px-4" id="addCollege" disabled>Add college <i
@@ -806,7 +902,8 @@
         logo: "images/logos/chandigarh-university.png",
         degrees: {
           "B.A. (Hons.)": ["Journalism and Mass Communication", "Economics"],
-          "B.Tech": ["Computer Science", "Mechanical Engineering", "Civil Engineering"]
+          "B.Tech": ["Computer Science", "Mechanical Engineering", "Civil Engineering", "Artificial Intelligence & Machine Learning"],
+          "B.Com": ["Honours", "General"]
         },
         gender: "Co-ed",
         fees: "₹1.6L – ₹2.4L / year", established: "2012", type: "University · UGC",
@@ -819,7 +916,8 @@
         logo: "images/logos/Amrutha Ayurvedic Medical College (AAMC).webp",
         degrees: {
           "B.A. (Hons.)": ["Journalism and Mass Communication", "English"],
-          "B.Tech": ["Computer Science", "Electronics Engineering", "Civil Engineering"]
+          "B.Tech": ["Computer Science", "Electronics Engineering", "Civil Engineering", "Artificial Intelligence & Machine Learning"],
+          "B.Com": ["Honours", "General"]
         },
         gender: "Co-ed",
         fees: "₹1.4L – ₹2.0L / year", established: "2005", type: "University · UGC",
@@ -831,7 +929,7 @@
         id: 3, name: "RV College of Engineering", city: "Bangalore", initials: "RV", color: "#13765d",
         logo: "images/logos/JSS Ayurveda Medical College.webp",
         degrees: {
-          "B.E.": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Science"]
+          "B.E.": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Science", "Artificial Intelligence & Machine Learning"]
         },
         gender: "Co-ed",
         fees: "₹1.8L – ₹2.2L / year", established: "1963", type: "College · VTU",
@@ -843,7 +941,8 @@
         id: 4, name: "PES University", city: "Bangalore", initials: "PES", color: "#be8d13",
         logo: "images/logos/Yenepoya Ayurveda Medical College and Hospital.webp",
         degrees: {
-          "B.Tech": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Technology"]
+          "B.Tech": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Technology", "Artificial Intelligence & Machine Learning"],
+          "BBA": ["Business Analytics", "Finance"]
         },
         gender: "Co-ed",
         fees: "₹2.4L – ₹3.0L / year", established: "1972", type: "University · Autonomous",
@@ -855,7 +954,7 @@
         id: 5, name: "BMS College of Engineering", city: "Bangalore", initials: "BMS", color: "#9f640b",
         logo: "images/logos/Amrutha Ayurvedic Medical College (AAMC).webp",
         degrees: {
-          "B.E.": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Science"]
+          "B.E.": ["Computer Science", "Mechanical Engineering", "Electronics & Communication", "Information Science", "Artificial Intelligence & Machine Learning"]
         },
         gender: "Co-ed",
         fees: "₹1.5L – ₹1.9L / year", established: "1946", type: "College · VTU",
@@ -867,7 +966,7 @@
         id: 6, name: "VIT Vellore", city: "Vellore", initials: "VIT", color: "#6a1b9a",
         logo: "images/logos/Sushrutha Ayurvedic Medical College & Hospital.webp",
         degrees: {
-          "B.Tech": ["Computer Science", "Electronics & Communication", "Mechanical Engineering"]
+          "B.Tech": ["Computer Science", "Electronics & Communication", "Mechanical Engineering", "Data Science"]
         },
         gender: "Co-ed",
         fees: "₹2.0L – ₹2.6L / year", established: "1984", type: "University · Deemed",
@@ -879,7 +978,7 @@
         id: 7, name: "Manipal Institute of Technology (MIT Manipal)", city: "Manipal", initials: "MIT", color: "#0e6b6b",
         logo: "images/logos/Yenepoya Ayurveda Medical College and Hospital.webp",
         degrees: {
-          "B.Tech": ["Computer Science", "Information Technology", "Mechanical Engineering"]
+          "B.Tech": ["Computer Science", "Information Technology", "Mechanical Engineering", "Artificial Intelligence"]
         },
         gender: "Co-ed",
         fees: "₹4.5L – ₹5.5L / year", established: "1957", type: "Institute · Deemed University",
@@ -892,13 +991,100 @@
         logo: "images/logos/chandigarh-university.png",
         degrees: {
           "B.A. (Hons.)": ["Journalism and Mass Communication", "Economics", "English"],
-          "BBA": ["Finance", "Marketing"]
+          "BBA": ["Finance", "Marketing"],
+          "B.Com": ["Honours", "General", "Professional"]
         },
         gender: "Co-ed",
         fees: "₹1.8L – ₹2.5L / year", established: "1969", type: "University · Deemed",
         location: "Hosur Road, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A++, NBA",
         campus: "30 acres", amenities: "Hostel, Library, Auditorium, Cafeteria, Wi-Fi campus",
         placement: "₹32 LPA highest", placed: "2,100 placed in 2025"
+      },
+      {
+        id: 9, name: "Jain University (Deemed-to-be)", city: "Bangalore", initials: "JU", color: "#7a1fa2",
+        logo: "images/logos/jain-university.png",
+        degrees: {
+          "B.Com": ["Honours", "Business Analytics", "General"],
+          "BBA": ["Business Analytics", "Digital Business"],
+          "BCA": ["Cloud Computing", "Cyber Security"],
+          "B.Tech": ["Computer Science", "Artificial Intelligence & Machine Learning"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.8L – ₹4.0L / year", established: "1990", type: "Deemed University · UGC",
+        location: "Jayanagar, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A++, NBA",
+        campus: "300 acres", amenities: "Hostel, Library, Sports complex, Wi-Fi campus",
+        placement: "₹40 LPA highest", placed: "2,300 placed in 2025"
+      },
+      {
+        id: 10, name: "Mount Carmel College", city: "Bangalore", initials: "MCC", color: "#a83246",
+        logo: "images/logos/mount-carmel-college.png",
+        degrees: {
+          "B.Com": ["Honours", "International Accounting & Finance", "General"],
+          "BBA": ["Business Analytics", "Aviation", "Fintech"],
+          "BCA": ["Data Analytics", "Cyber Security"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.4L – ₹2.4L / year", established: "1948", type: "College · Autonomous",
+        location: "Palace Road, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A+",
+        campus: "10 acres", amenities: "Hostel, Library, Auditorium, Gym, Wi-Fi campus",
+        placement: "₹21.5 LPA highest", placed: "640 placed in 2025"
+      },
+      {
+        id: 11, name: "St. Joseph's College of Commerce (SJCC)", city: "Bangalore", initials: "SJCC", color: "#1c4e80",
+        logo: "images/logos/st-josephs-college-of-commerce.png",
+        degrees: {
+          "B.Com": ["Honours", "International Accounting & Finance", "General"],
+          "BBA": ["Entrepreneurship", "Aviation", "Logistics"]
+        },
+        gender: "Co-ed",
+        fees: "₹0.7L – ₹1.5L / year", established: "1972", type: "College · Autonomous",
+        location: "Brigade Road, Bangalore", ownership: "Private · Jesuit Trust", accreditation: "NAAC A++",
+        campus: "3 acres", amenities: "Library, Auditorium, Wi-Fi campus, Cafeteria",
+        placement: "₹14 LPA highest", placed: "420 placed in 2025"
+      },
+      {
+        id: 12, name: "Kristu Jayanti University", city: "Bangalore", initials: "KJU", color: "#0c6b45",
+        logo: "images/logos/kristu-jayanti-university.png",
+        degrees: {
+          "B.Com": ["Honours", "ACCA", "Business Analytics"],
+          "BBA": ["Business Analytics", "Fintech", "Aviation"],
+          "BCA": ["Cloud Computing", "Data Analytics"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.2L – ₹1.9L / year", established: "1999", type: "Deemed University · UGC",
+        location: "Kothanur, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A++",
+        campus: "50 acres", amenities: "Hostel, Library, Sports complex, Wi-Fi campus",
+        placement: "₹22 LPA highest", placed: "860 placed in 2025"
+      },
+      {
+        id: 13, name: "Presidency University", city: "Bangalore", initials: "PU", color: "#8a1f2d",
+        logo: "images/logos/presidency-university.png",
+        degrees: {
+          "B.Com": ["Honours", "General"],
+          "BBA": ["Aviation", "Digital Marketing", "Business Analytics"],
+          "BCA": ["Data Science"],
+          "B.Tech": ["Computer Science", "Artificial Intelligence & Machine Learning", "Cyber Security"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.4L – ₹3.0L / year", established: "2013", type: "University · UGC",
+        location: "Yelahanka, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A+",
+        campus: "67 acres", amenities: "Hostel, Library, Auditorium, Sports complex, Wi-Fi campus",
+        placement: "₹28 LPA highest", placed: "1,150 placed in 2025"
+      },
+      {
+        id: 14, name: "Garden City University", city: "Bangalore", initials: "GCU", color: "#2d7a4f",
+        logo: "images/logos/garden-city-university.png",
+        degrees: {
+          "B.Com": ["Honours", "General"],
+          "BBA": ["International Business", "Aviation"],
+          "BCA": ["General"],
+          "B.Tech": ["Computer Science", "Mechanical Engineering"]
+        },
+        gender: "Co-ed",
+        fees: "₹1.5L – ₹2.5L / year", established: "1992", type: "University · UGC",
+        location: "Bhattarahalli, Bangalore", ownership: "Private · Trust", accreditation: "NAAC A",
+        campus: "52 acres", amenities: "Hostel, Library, Sports complex, Wi-Fi campus",
+        placement: "₹18 LPA highest", placed: "540 placed in 2025"
       }
     ];
 
@@ -944,6 +1130,9 @@
     const leadCaptureModalEl = document.getElementById("leadCaptureModal");
     const leadCaptureModal = new bootstrap.Modal(leadCaptureModalEl);
     const leadCaptureForm = document.getElementById("leadCaptureForm");
+    const suggestedSectionEl = document.getElementById("suggestedSection");
+    const suggestedLabelEl = document.getElementById("suggestedLabelText");
+    const suggestedListEl = document.getElementById("suggestedColleges");
 
     // ---------------------------------------------------------------
     // Small helpers
@@ -966,6 +1155,25 @@
 
     function getUsedCollegeIds() {
       return slots.map(slot => slot.collegeId);
+    }
+
+    // Degrees already chosen across the slots filled so far, in the
+    // order they were picked — this powers the "Suggested colleges"
+    // panel and the match badges in the search results below.
+    function getSelectedDegrees() {
+      const degrees = [];
+      slots.forEach(slot => {
+        if (slot.degree && !degrees.includes(slot.degree)) degrees.push(slot.degree);
+      });
+      return degrees;
+    }
+
+    function collegeOffersAnyDegree(college, degrees) {
+      return degrees.some(degree => Object.prototype.hasOwnProperty.call(college.degrees, degree));
+    }
+
+    function firstMatchingDegree(college, degrees) {
+      return degrees.find(degree => Object.prototype.hasOwnProperty.call(college.degrees, degree));
     }
 
     function collegeLogoHtml(college) {
@@ -991,11 +1199,64 @@
     }
 
     // ---------------------------------------------------------------
+    // Modal: "Suggested for you" — colleges offering a degree the
+    // person has already picked in an earlier slot. Shown before the
+    // search box so the fast path (tap a suggestion) comes first.
+    // ---------------------------------------------------------------
+    function renderSuggestions() {
+      const usedIds = getUsedCollegeIds();
+      const selectedDegrees = getSelectedDegrees();
+      const matches = CATALOG
+        .filter(college => !usedIds.includes(college.id) && collegeOffersAnyDegree(college, selectedDegrees))
+        .slice(0, 6);
+
+      if (!selectedDegrees.length || matches.length === 0) {
+        suggestedSectionEl.classList.add("d-none");
+        suggestedListEl.innerHTML = "";
+        return;
+      }
+
+      const degreeLabel = selectedDegrees.length === 1
+        ? selectedDegrees[0]
+        : `${selectedDegrees.slice(0, -1).join(", ")} or ${selectedDegrees[selectedDegrees.length - 1]}`;
+      suggestedLabelEl.innerHTML = `Suggested — also offer <strong>${escapeHtml(degreeLabel)}</strong>`;
+
+      suggestedListEl.innerHTML = matches.map(college => {
+        const matchedDegree = firstMatchingDegree(college, selectedDegrees);
+        return `
+          <button class="suggested-chip" type="button" data-suggest-id="${college.id}">
+            ${collegeLogoHtml(college)}
+            <strong>${escapeHtml(college.name)}</strong>
+            <small><i class="bi bi-geo-alt"></i> ${escapeHtml(college.city)}</small>
+            <span class="match-tag">Offers ${escapeHtml(matchedDegree)}</span>
+          </button>
+        `;
+      }).join("");
+
+      suggestedListEl.querySelectorAll("[data-suggest-id]").forEach(button => {
+        button.addEventListener("click", () => {
+          const college = getCollegeById(Number(button.dataset.suggestId));
+          chooseCollege(college);
+          // Fast path: pre-fill the degree that matched so the person
+          // only has to pick a course to finish.
+          const matchedDegree = firstMatchingDegree(college, selectedDegrees);
+          if (matchedDegree) {
+            degreeSelect.value = matchedDegree;
+            degreeSelect.dispatchEvent(new Event("change"));
+          }
+        });
+      });
+
+      suggestedSectionEl.classList.remove("d-none");
+    }
+
+    // ---------------------------------------------------------------
     // Modal: searching and choosing a college
     // ---------------------------------------------------------------
     function renderCollegeOptions() {
       const query = searchInput.value.trim().toLowerCase();
       const usedIds = getUsedCollegeIds();
+      const selectedDegrees = getSelectedDegrees();
       const shouldShowList = query.length > 0 || document.activeElement === searchInput;
 
       if (!shouldShowList) {
@@ -1007,6 +1268,11 @@
         if (usedIds.includes(college.id)) return false;
         const haystack = (college.name + " " + college.city).toLowerCase();
         return !query || haystack.includes(query);
+      }).sort((a, b) => {
+        // Colleges offering an already-picked degree bubble to the top.
+        const aMatches = collegeOffersAnyDegree(a, selectedDegrees) ? 0 : 1;
+        const bMatches = collegeOffersAnyDegree(b, selectedDegrees) ? 0 : 1;
+        return aMatches - bMatches;
       });
 
       if (matches.length === 0) {
@@ -1016,14 +1282,18 @@
         return;
       }
 
-      optionsListEl.innerHTML = matches.map(college => `
+      optionsListEl.innerHTML = matches.map(college => {
+        const matchedDegree = firstMatchingDegree(college, selectedDegrees);
+        return `
         <button class="college-option" type="button" data-college-id="${college.id}">
           <span>
             <strong>${escapeHtml(college.name)}</strong>
             <small><i class="bi bi-geo-alt"></i> ${escapeHtml(college.city)}</small>
           </span>
+          ${matchedDegree ? `<span class="match-badge">Offers ${escapeHtml(matchedDegree)}</span>` : ""}
         </button>
-      `).join("");
+      `;
+      }).join("");
 
       optionsListEl.querySelectorAll("[data-college-id]").forEach(button => {
         button.addEventListener("click", () => {
@@ -1072,6 +1342,7 @@
 
     function openCollegeSelectModal() {
       resetModalForm();
+      renderSuggestions();
       renderCollegeOptions();
       collegeModal.show();
     }
@@ -1081,7 +1352,7 @@
     function openAddCollegeModal(slotIndex) {
       if (slotIndex >= MAX_COLLEGES) return; // hard stop at the cap
       activeSlotIndex = slotIndex;
-      if (slotIndex === 1) {
+      if (slotIndex === 0) {
         leadCaptureForm.reset();
         leadCaptureModal.show();
         return;
