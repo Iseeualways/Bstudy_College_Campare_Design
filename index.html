@@ -1114,7 +1114,7 @@
     let slots = [];             // { collegeId, degree, course }[] — max length: MAX_COLLEGES
     let activeSlotIndex = 0;    // which slot the open modal is filling
     let selectedCollege = null;
-    let proceedToCollegeSelect = false; // whether to open the select modal after the lead popup closes
+    let pendingCollegeSelection = null; // whether to open the select modal after the lead popup closes
 
     // ---------------------------------------------------------------
     // DOM references
@@ -1360,19 +1360,18 @@
       openCollegeSelectModal();
     }
 
-    // Once the lead popup finishes closing, hand off to the select modal
-    // (avoids two Bootstrap modals/backdrops overlapping mid-transition).
-    leadCaptureModalEl.addEventListener("hidden.bs.modal", () => {
-      if (proceedToCollegeSelect) {
-        proceedToCollegeSelect = false;
-        openCollegeSelectModal();
-      }
-    });
 
     leadCaptureForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      proceedToCollegeSelect = true;
-      leadCaptureModal.hide();
+
+      if (pendingCollegeSelection) {
+        slots[pendingCollegeSelection.index] = pendingCollegeSelection.college;
+
+        pendingCollegeSelection = null;
+
+        leadCaptureModal.hide();
+        renderAll();
+      }
     });
 
     // ---------------------------------------------------------------
@@ -1517,19 +1516,34 @@
     addButton.addEventListener("click", () => {
       if (!selectedCollege || !degreeSelect.value || !courseSelect.value) return;
 
-      slots[activeSlotIndex] = {
+      const collegeData = {
         collegeId: selectedCollege.id,
         degree: degreeSelect.value,
         course: courseSelect.value
       };
 
-      // Show popup after all 3 fields are completed
-      leadCaptureForm.reset();
-      collegeModal.hide();
+      // ONLY FIRST COLLEGE → show lead form
+      if (slots.length === 0) {
+        pendingCollegeSelection = {
+          index: 0,
+          college: collegeData
+        };
 
-      setTimeout(() => {
-        leadCaptureModal.show();
-      }, 300);
+        leadCaptureForm.reset();
+        collegeModal.hide();
+
+        setTimeout(() => {
+          leadCaptureModal.show();
+        }, 300);
+
+        return;
+      }
+
+      // 2nd, 3rd and 4th → add directly
+      slots.push(collegeData);
+
+      collegeModal.hide();
+      renderAll();
     });
 
     renderAll();
