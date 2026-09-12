@@ -674,11 +674,10 @@
 
     .apply-now-heading {
       color: #1a1a1a;
-      font-size: 21px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 600;
       margin: 0 0 18px;
       text-align: center;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, .35);
     }
 
     .apply-now-form {
@@ -688,9 +687,8 @@
     }
 
     .apply-input {
-      background: rgba(70, 70, 70, .45);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, .35);
+      background: rgba(235, 235, 235, 0.942);
+      border: 1px solid rgba(169, 169, 169, 0.702);
       border-radius: 10px;
       color: #fff;
       font-size: 16px;
@@ -700,22 +698,22 @@
     }
 
     .apply-input::placeholder {
-      color: rgba(255, 255, 255, .85);
+      color: rgba(73, 73, 73, 0.94);
     }
 
     .apply-input:focus {
-      background: rgba(70, 70, 70, .6);
+      background: rgba(216, 216, 216, 0.93);
       border-color: #fff;
-      color: #fff;
+      color: #000000;
       outline: none;
     }
 
     .apply-phone-group {
       align-items: center;
-      background: rgba(70, 70, 70, .45);
+      background: rgba(235, 235, 235, 0.942);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, .35);
+      border: 1px solid rgba(49, 49, 49, 0.35);
       border-radius: 10px;
       display: flex;
       gap: 9px;
@@ -740,27 +738,24 @@
     }
 
     .apply-phone-flag i {
-      color: rgba(255, 255, 255, .8);
+      color: rgba(40, 40, 40, 0.8);
       font-size: 8px;
     }
 
     .apply-phone-code {
       border-right: 1px solid rgba(255, 255, 255, .35);
-      color: #fff;
+      color: #303030;
       flex: 0 0 auto;
       font-size: 14px;
       padding-right: 10px;
     }
 
-    /* Higher-specificity selector so this always wins over .apply-input,
-       regardless of source order, and stays perfectly seamless with
-       .apply-phone-group instead of looking like a nested pill. */
     .apply-phone-group input.apply-phone-input {
       background: transparent;
       border: 0;
       border-radius: 0;
       box-shadow: none;
-      color: #fff;
+      color: #000000;
       flex: 1;
       font-size: 14px;
       min-height: auto;
@@ -868,7 +863,7 @@
       <div class="modal-content apply-now-card">
         <button type="button" class="apply-now-close" data-bs-dismiss="modal" aria-label="Close"><i
             class="bi bi-x"></i></button>
-        <h2 class="apply-now-heading" id="leadCaptureLabel">Apply Now</h2>
+        <h2 class="apply-now-heading" id="leadCaptureLabel">Get updates on: Cut-offs | Placements | Rankings</h2>
         <form id="leadCaptureForm" class="apply-now-form">
           <input type="text" class="apply-input" id="leadName" placeholder="Enter Name" autocomplete="name" required>
           <input type="email" class="apply-input" id="leadEmail" placeholder="Enter Email" autocomplete="email"
@@ -889,7 +884,7 @@
           </div>
           <input type="text" class="apply-input" id="leadCourse" placeholder="Course In Mind">
           <input type="text" class="apply-input" id="leadLocation" placeholder="Enter Location">
-          <button type="submit" class="apply-submit-btn">Talk to Experts</button>
+          <button type="submit" class="apply-submit-btn">Compare</button>
         </form>
       </div>
     </div>
@@ -1354,6 +1349,7 @@
     // Second slot (index 1) gates through the "Apply Now" lead-capture
     // popup before the usual college/degree/course select modal opens.
     function openAddCollegeModal(slotIndex) {
+      1
       if (slotIndex >= MAX_COLLEGES) return;
 
       activeSlotIndex = slotIndex;
